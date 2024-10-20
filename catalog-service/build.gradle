@@ -1,6 +1,6 @@
 plugins {
-	id 'org.springframework.boot' version '3.3.3'
-	id 'io.spring.dependency-management' version '1.1.6'
+	id 'org.springframework.boot' version '3.3.0'
+	id 'io.spring.dependency-management' version '1.1.5'
 	id 'java'
 }
 
@@ -59,13 +59,10 @@ dependencyManagement {
 	}
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
-
 bootBuildImage {
+	builder = "docker.io/paketobuildpacks/builder-jammy-base"
 	imageName = "${project.name}"
-	environment = ["BP_JVM_VERSION" : "17.*"]
+	environment = ["BP_JVM_VERSION": "17"]
 
 	docker {
 		publishRegistry {
@@ -74,4 +71,8 @@ bootBuildImage {
 			url = project.findProperty("registryUrl")
 		}
 	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
 }
